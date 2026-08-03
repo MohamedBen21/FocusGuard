@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>FocusGuard</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <path d="M12 2 4 5.5v6.2C4 17 7.4 21.6 12 23c4.6-1.4 8-6 8-11.3V5.5L12 2Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+          <path d="M9 12.2l2.1 2.1L15.3 10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+      <div>
+        <h1>FocusGuard</h1>
+        <p class="tagline">Less scrolling. More doing.</p>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="category">
+      <div class="category-head">
+        <div>
+          <h2>Reels &amp; Shorts</h2>
+          <p class="hint">Blocks short-form video feeds</p>
+        </div>
+        <label class="switch switch--master">
+          <input type="checkbox" id="reels-master" />
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <ul class="item-list" id="reels-list">
+        <li class="item" data-key="youtube">
+          <span class="item-label">
+            <span class="dot dot--youtube" aria-hidden="true"></span>
+            YouTube Shorts
+            <span class="streak" id="streak-youtube"></span>
+          </span>
+          <label class="switch">
+            <input type="checkbox" data-group="reels" data-site="youtube" />
+            <span class="slider"></span>
+          </label>
+        </li>
+        <li class="item" data-key="tiktok">
+          <span class="item-label">
+            <span class="dot dot--tiktok" aria-hidden="true"></span>
+            TikTok
+            <span class="streak" id="streak-tiktok"></span>
+          </span>
+          <label class="switch">
+            <input type="checkbox" data-group="reels" data-site="tiktok" />
+            <span class="slider"></span>
+          </label>
+        </li>
+        <li class="item" data-key="instagram">
+          <span class="item-label">
+            <span class="dot dot--instagram" aria-hidden="true"></span>
+            Instagram Reels
+            <span class="streak" id="streak-instagram"></span>
+          </span>
+          <label class="switch">
+            <input type="checkbox" data-group="reels" data-site="instagram" />
+            <span class="slider"></span>
+          </label>
+        </li>
+        <li class="item" data-key="facebook">
+          <span class="item-label">
+            <span class="dot dot--facebook" aria-hidden="true"></span>
+            Facebook Reels
+            <span class="streak" id="streak-facebook"></span>
+          </span>
+          <label class="switch">
+            <input type="checkbox" data-group="reels" data-site="facebook" />
+            <span class="slider"></span>
+          </label>
+        </li>
+      </ul>
+      <p class="note">Reels aren't blocked outright — a friend's link still works. Watch too many in a row and that platform pauses itself, see below.</p>
+    </section>
+
+    <section class="category">
+      <div class="category-head">
+        <div>
+          <h2>Doomscroll Limit</h2>
+          <p class="hint">Pauses a platform after a scrolling streak</p>
+        </div>
+      </div>
+
+      <div class="doom-controls">
+        <label class="doom-row">
+          <span>Block after</span>
+          <select id="doom-threshold"></select>
+          <span>reels in a row</span>
+        </label>
+        <label class="doom-row">
+          <span>Cooldown</span>
+          <select id="doom-cooldown"></select>
+        </label>
+      </div>
+      <p class="note">A pause longer than 90 seconds between reels resets the streak — this only catches back-to-back scrolling.</p>
+    </section>
+
+    <section class="category">
+      <div class="category-head">
+        <div>
+          <h2>Adult Content</h2>
+          <p class="hint">Blocks 45+ known porn &amp; adult sites</p>
+        </div>
+        <label class="switch switch--master">
+          <input type="checkbox" id="adult-master" />
+          <span class="slider"></span>
+        </label>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span id="status-text">All protections active</span>
+  </footer>
+
+  <script src="popup.js"></script>
+</body>
+</html>

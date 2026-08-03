@@ -1,0 +1,230 @@
+:root {
+  --bg: #171d27;
+  --card: #212a38;
+  --card-border: #2c3646;
+  --text: #eaeef4;
+  --text-muted: #8b98ac;
+  --accent: #4fcdb0;
+  --accent-dim: #35604f;
+  --track-off: #3a4453;
+  --danger: #e8735a;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  width: 320px;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.header {
+  padding: 18px 18px 14px;
+  border-bottom: 1px solid var(--card-border);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand-mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  background: linear-gradient(155deg, var(--accent-dim), #1a3a30);
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.brand h1 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+.tagline {
+  margin: 2px 0 0;
+  font-size: 11.5px;
+  color: var(--text-muted);
+}
+
+main {
+  padding: 14px 16px 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.category {
+  background: var(--card);
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  padding: 13px 14px 14px;
+}
+
+.category-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.category-head h2 {
+  margin: 0;
+  font-size: 13.5px;
+  font-weight: 600;
+}
+
+.hint {
+  margin: 2px 0 0;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.item-list {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 10px 0 0;
+  border-top: 1px solid var(--card-border);
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.item-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  color: var(--text);
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.dot--youtube { background: #ff5252; }
+.dot--tiktok { background: #29e0d0; }
+.dot--instagram { background: #e1739c; }
+.dot--facebook { background: #5b8def; }
+
+.note {
+  margin: 10px 0 0;
+  font-size: 10.5px;
+  line-height: 1.4;
+  color: var(--text-muted);
+}
+
+.streak {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.06);
+  padding: 1.5px 6px;
+  border-radius: 999px;
+}
+.streak:empty { display: none; }
+.streak.streak--warn { color: #d9a441; background: rgba(217, 164, 65, 0.14); }
+.streak.streak--cooldown { color: var(--danger); background: rgba(232, 115, 90, 0.14); }
+
+.doom-controls {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--card-border);
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.doom-row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  color: var(--text);
+}
+
+.doom-row select {
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+  background: #1a2230;
+  border: 1px solid var(--card-border);
+  border-radius: 7px;
+  padding: 4px 8px;
+}
+
+/* Toggle switch */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 34px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background: var(--track-off);
+  border-radius: 999px;
+  transition: background 0.15s ease;
+}
+
+.slider::before {
+  content: "";
+  position: absolute;
+  height: 15px;
+  width: 15px;
+  left: 2.5px;
+  top: 2.5px;
+  background: #ffffff;
+  border-radius: 50%;
+  transition: transform 0.15s ease;
+}
+
+.switch input:checked + .slider {
+  background: var(--accent);
+}
+
+.switch input:checked + .slider::before {
+  transform: translateX(14px);
+}
+
+.switch--master .slider {
+  background: var(--track-off);
+}
+
+.footer {
+  padding: 12px 18px 16px;
+  text-align: center;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+#status-text.status--partial { color: #d9a441; }
+#status-text.status--off { color: var(--danger); }

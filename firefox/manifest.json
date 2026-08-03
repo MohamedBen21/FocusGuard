@@ -1,0 +1,48 @@
+{
+  "manifest_version": 3,
+  "name": "FocusGuard — Block Reels & Adult Sites",
+  "version": "1.0.0",
+  "description": "Blocks TikTok, YouTube Shorts, Instagram Reels, Facebook Reels, and adult/porn websites. Toggle each category on or off anytime, and get a nudge when you're doomscrolling.",
+  "permissions": ["storage", "declarativeNetRequest"],
+  "host_permissions": ["<all_urls>"],
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "focusguard@example-extension.local",
+      "strict_min_version": "115.0"
+    }
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.youtube.com/*",
+        "*://*.tiktok.com/*",
+        "*://*.instagram.com/*",
+        "*://*.facebook.com/*"
+      ],
+      "js": ["content-reels.js"],
+      "run_at": "document_start"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["blocked.html", "icons/icon128.png"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}
