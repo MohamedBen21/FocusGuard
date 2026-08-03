@@ -1,20 +1,3 @@
-// ---------------------------------------------------------------------------
-// FocusGuard content script — smart doomscroll detection
-//
-// Reels/Shorts are allowed to load. Each reel gets an identifier extracted
-// from the URL (its shortcode/video id) — every platform updates its address
-// bar per reel, even TikTok/Instagram which sometimes preload or reuse
-// <video> elements behind the scenes, which made video-load-event detection
-// unreliable. Whenever the id changes we count it as a new reel watched.
-//
-// Streak logic:
-//   - Each new reel within `resetGapSeconds` of the last one adds to the streak.
-//   - A longer pause resets the streak to 1 (not consecutive anymore).
-//   - Hitting `threshold` sets a `blockedUntil` cooldown and redirects to the
-//     blocked page. While blockedUntil is active, any reel page on that
-//     platform redirects immediately.
-// ---------------------------------------------------------------------------
-
 (function () {
   const host = location.hostname;
   const PLATFORM = detectPlatform(host);
@@ -146,9 +129,9 @@
     }
   }
 
-  // --- Triggers ---------------------------------------------------------
-  // 1) SPA navigation (pushState/replaceState/popstate) — the primary signal,
-  //    since all four platforms update the URL per reel.
+
+  //1) SPA navigation (pushState/replaceState/popstate) — the primary signal,
+  //since all four platforms update the URL per reel.
   function patchHistory() {
     const fire = () => setTimeout(evaluate, 0);
     const origPush = history.pushState;
@@ -165,10 +148,10 @@
   }
   patchHistory();
 
-  // 2) Video element activity — a helpful extra nudge for platforms that
-  //    update the URL a beat after (or before) the video actually starts.
-  //    Harmless even if redundant: evaluate() only counts on an actual id
-  //    change, so extra calls never double-count.
+  //2) Video element activity — a helpful extra nudge for platforms that
+  //update the URL a beat after (or before) the video actually starts.
+  //Harmless even if redundant: evaluate() only counts on an actual id
+  //change, so extra calls never double-count.
   document.addEventListener(
     "loadstart",
     (e) => {
@@ -184,11 +167,11 @@
     true
   );
 
-  // 3) Fast poll as a safety net — catches any id change the above signals
-  //    miss (e.g. a feed that mutates the URL without a history API call).
+  //3) Fast poll as a safety net — catches any id change the above signals
+  //miss (e.g. a feed that mutates the URL without a history API call).
   setInterval(evaluate, 700);
 
-  // 4) Initial check on page load.
+  //4) Initial check on page load.
   evaluate();
 
   chrome.storage.onChanged.addListener((changes, area) => {

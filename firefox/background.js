@@ -1,14 +1,3 @@
-// ---------------------------------------------------------------------------
-// FocusGuard background service worker
-//
-// Adult sites: hard-blocked at the network level via declarativeNetRequest.
-// Reels/Shorts: NOT network-blocked anymore. They're allowed through, but
-// content-reels.js watches how many play back-to-back and, past a threshold,
-// writes a per-platform "blockedUntil" cooldown to storage. That cooldown is
-// what content-reels.js checks before letting a reel page load. This lets a
-// single link from a friend through, while still catching binge-scrolling.
-// ---------------------------------------------------------------------------
-
 const DEFAULT_SETTINGS = {
   reels: {
     youtube: true,
@@ -27,7 +16,7 @@ const DEFAULT_SETTINGS = {
 };
 
 // A curated list of well-known adult / pornography domains.
-// Matched with DNR's "||domain^" syntax, which also covers all subdomains
+// Matched with DNR's "||domain" syntax, which also covers all subdomains
 // (e.g. "||pornhub.com^" blocks www.pornhub.com, es.pornhub.com, etc.)
 const ADULT_DOMAINS = [
   "pornhub.com", "xvideos.com", "xnxx.com", "xhamster.com", "redtube.com",

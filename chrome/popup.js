@@ -152,5 +152,5 @@ chrome.storage.onChanged.addListener((changes, area) => {
 });
 
 loadAll();
-// Live-refresh cooldown countdowns while the popup stays open.
+//Live refresh cooldown countdowns while the popup stays open.
 liveTimer = setInterval(renderStreaks, 1000);
