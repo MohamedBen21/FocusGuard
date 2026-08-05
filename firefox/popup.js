@@ -10,6 +10,7 @@ const reelsMaster = document.getElementById("reels-master");
 const adultMaster = document.getElementById("adult-master");
 const siteInputs = Array.from(document.querySelectorAll('input[data-group="reels"]'));
 const statusText = document.getElementById("status-text");
+const statusDot = document.getElementById("status-dot");
 const thresholdSelect = document.getElementById("doom-threshold");
 const cooldownSelect = document.getElementById("doom-cooldown");
 
@@ -87,14 +88,18 @@ function updateStatus() {
   const allOff = reelsAllOff(settings.reels) && !settings.adult.master;
 
   statusText.classList.remove("status--partial", "status--off");
+  statusDot.classList.remove("dot--warn", "dot--off");
+
   if (allOn) {
     statusText.textContent = "All protections active";
   } else if (allOff) {
     statusText.textContent = "All protections off";
     statusText.classList.add("status--off");
+    statusDot.classList.add("dot--off");
   } else {
     statusText.textContent = "Some protections off";
     statusText.classList.add("status--partial");
+    statusDot.classList.add("dot--warn");
   }
 }
 
@@ -152,5 +157,4 @@ chrome.storage.onChanged.addListener((changes, area) => {
 });
 
 loadAll();
-//Live refresh cooldown countdowns while the popup stays open.
 liveTimer = setInterval(renderStreaks, 1000);

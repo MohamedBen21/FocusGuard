@@ -3,123 +3,194 @@
 <head>
   <meta charset="UTF-8" />
   <title>FocusGuard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="popup.css" />
 </head>
 <body>
+
   <header class="header">
     <div class="brand">
-      <span class="brand-mark" aria-hidden="true">
+      <div class="brand-mark" aria-hidden="true">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-          <path d="M12 2 4 5.5v6.2C4 17 7.4 21.6 12 23c4.6-1.4 8-6 8-11.3V5.5L12 2Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
-          <path d="M9 12.2l2.1 2.1L15.3 10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M12 2.5L4.5 5.8v5.8C4.5 16.6 7.7 21 12 22.5c4.3-1.5 7.5-5.9 7.5-10.9V5.8L12 2.5Z" fill="rgba(59,130,246,0.15)" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+          <path d="M9.5 12.3l1.8 1.8 3.2-3.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-      </span>
-      <div>
+      </div>
+      <div class="brand-name">
         <h1>FocusGuard</h1>
-        <p class="tagline">Less scrolling. More doing.</p>
+        <p class="tagline">Your digital boundaries, secured.</p>
+      </div>
+      <div class="trust-badge" aria-label="Verified secure">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none">
+          <path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M12 2L4 5.5v6.2C4 17 7.4 21.6 12 23c4.6-1.4 8-6 8-11.3V5.5L12 2Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+        </svg>
+        <span>Secured</span>
       </div>
     </div>
   </header>
 
   <main>
-    <section class="category">
-      <div class="category-head">
-        <div>
-          <h2>Reels &amp; Shorts</h2>
-          <p class="hint">Blocks short-form video feeds</p>
+
+    <div class="card">
+      <div class="card-head">
+        <div class="card-head-info">
+          <div class="card-icon card-icon--blue" aria-hidden="true">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+              <rect x="3" y="3" width="7" height="7" rx="1.5" fill="currentColor" opacity="0.8"/>
+              <rect x="14" y="3" width="7" height="7" rx="1.5" fill="currentColor" opacity="0.5"/>
+              <rect x="3" y="14" width="7" height="7" rx="1.5" fill="currentColor" opacity="0.5"/>
+              <rect x="14" y="14" width="7" height="7" rx="1.5" fill="currentColor" opacity="0.3"/>
+            </svg>
+          </div>
+          <div class="card-text">
+            <h2>Reels &amp; Shorts</h2>
+            <p class="hint">Short-form video feed control</p>
+          </div>
         </div>
-        <label class="switch switch--master">
+        <label class="switch switch--master" aria-label="Toggle all reels">
           <input type="checkbox" id="reels-master" />
           <span class="slider"></span>
         </label>
       </div>
 
-      <ul class="item-list" id="reels-list">
-        <li class="item" data-key="youtube">
-          <span class="item-label">
-            <span class="dot dot--youtube" aria-hidden="true"></span>
-            YouTube Shorts
+      <div class="divider"></div>
+
+      <ul class="platform-list" id="reels-list">
+        <li class="platform-item" data-key="youtube">
+          <div class="platform-label">
+            <div class="platform-icon platform-icon--youtube" aria-hidden="true">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
+                <path d="M22.5 6.75a2.83 2.83 0 00-2-2C18.9 4.4 12 4.4 12 4.4s-6.9 0-8.5.35a2.83 2.83 0 00-2 2C1.15 8.35 1.15 12 1.15 12s0 3.65.35 5.25a2.83 2.83 0 002 2C5.1 19.6 12 19.6 12 19.6s6.9 0 8.5-.35a2.83 2.83 0 002-2c.35-1.6.35-5.25.35-5.25s0-3.65-.35-5.25Z" fill="#FF0000"/>
+                <path d="M9.85 15.2l5.65-3.2-5.65-3.2v6.4Z" fill="white"/>
+              </svg>
+            </div>
+            <span class="platform-name">YouTube Shorts</span>
             <span class="streak" id="streak-youtube"></span>
-          </span>
-          <label class="switch">
+          </div>
+          <label class="switch" aria-label="Toggle YouTube Shorts">
             <input type="checkbox" data-group="reels" data-site="youtube" />
             <span class="slider"></span>
           </label>
         </li>
-        <li class="item" data-key="tiktok">
-          <span class="item-label">
-            <span class="dot dot--tiktok" aria-hidden="true"></span>
-            TikTok
+        <li class="platform-item" data-key="tiktok">
+          <div class="platform-label">
+            <div class="platform-icon platform-icon--tiktok" aria-hidden="true">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
+                <path d="M19.6 6.7a5.4 5.4 0 01-5.3-5.3h-3.5v12.1a2.6 2.6 0 01-2.6 2.3 2.6 2.6 0 01-2.6-2.6 2.6 2.6 0 012.6-2.6c.25 0 .5.04.73.1V7.1a6.1 6.1 0 00-.73-.05 6.1 6.1 0 00-6.1 6.1 6.1 6.1 0 006.1 6.1 6.1 6.1 0 006.1-6.1V8.8a8.8 8.8 0 005.3 1.75V7.05a5.4 5.4 0 01-2-.35Z" fill="white"/>
+              </svg>
+            </div>
+            <span class="platform-name">TikTok</span>
             <span class="streak" id="streak-tiktok"></span>
-          </span>
-          <label class="switch">
+          </div>
+          <label class="switch" aria-label="Toggle TikTok">
             <input type="checkbox" data-group="reels" data-site="tiktok" />
             <span class="slider"></span>
           </label>
         </li>
-        <li class="item" data-key="instagram">
-          <span class="item-label">
-            <span class="dot dot--instagram" aria-hidden="true"></span>
-            Instagram Reels
+        <li class="platform-item" data-key="instagram">
+          <div class="platform-label">
+            <div class="platform-icon platform-icon--instagram" aria-hidden="true">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
+                <rect x="2" y="2" width="20" height="20" rx="5.5" fill="url(#ig-grad)"/>
+                <circle cx="12" cy="12" r="5" stroke="white" stroke-width="1.8"/>
+                <circle cx="17.5" cy="6.5" r="1.1" fill="white"/>
+                <defs>
+                  <linearGradient id="ig-grad" x1="2" y1="22" x2="22" y2="2" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#F9CE34"/>
+                    <stop offset="0.35" stop-color="#EE2A7B"/>
+                    <stop offset="1" stop-color="#6228D7"/>
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+            <span class="platform-name">Instagram Reels</span>
             <span class="streak" id="streak-instagram"></span>
-          </span>
-          <label class="switch">
+          </div>
+          <label class="switch" aria-label="Toggle Instagram Reels">
             <input type="checkbox" data-group="reels" data-site="instagram" />
             <span class="slider"></span>
           </label>
         </li>
-        <li class="item" data-key="facebook">
-          <span class="item-label">
-            <span class="dot dot--facebook" aria-hidden="true"></span>
-            Facebook Reels
+        <li class="platform-item" data-key="facebook">
+          <div class="platform-label">
+            <div class="platform-icon platform-icon--facebook" aria-hidden="true">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
+                <rect width="24" height="24" rx="5.5" fill="#1877F2"/>
+                <path d="M16.5 8h-2.2a.6.6 0 00-.6.6v1.9h2.8l-.4 2.6H13.7V19h-2.7v-5.9H9.5v-2.6h1.5V8.4A3.4 3.4 0 0114.4 5c.7 0 1.4.05 2.1.15V8Z" fill="white"/>
+              </svg>
+            </div>
+            <span class="platform-name">Facebook Reels</span>
             <span class="streak" id="streak-facebook"></span>
-          </span>
-          <label class="switch">
+          </div>
+          <label class="switch" aria-label="Toggle Facebook Reels">
             <input type="checkbox" data-group="reels" data-site="facebook" />
             <span class="slider"></span>
           </label>
         </li>
       </ul>
-      <p class="note">Reels aren't blocked outright — a friend's link still works. Watch too many in a row and that platform pauses itself, see below.</p>
-    </section>
 
-    <section class="category">
-      <div class="category-head">
-        <div>
-          <h2>Doomscroll Limit</h2>
-          <p class="hint">Pauses a platform after a scrolling streak</p>
+      <p class="card-note">A friend's link still opens normally. Reels trigger the limit only during back-to-back scrolling.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <div class="card-head-info">
+          <div class="card-icon card-icon--warn" aria-hidden="true">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+              <path d="M12 3l9 16H3L12 3Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+              <path d="M12 10v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <circle cx="12" cy="17" r="0.8" fill="currentColor"/>
+            </svg>
+          </div>
+          <div class="card-text">
+            <h2>Doomscroll Limit</h2>
+            <p class="hint">Auto-pauses after a scrolling streak</p>
+          </div>
         </div>
       </div>
 
       <div class="doom-controls">
         <label class="doom-row">
           <span>Block after</span>
-          <select id="doom-threshold"></select>
+          <select id="doom-threshold" aria-label="Reel threshold"></select>
           <span>reels in a row</span>
         </label>
         <label class="doom-row">
           <span>Cooldown</span>
-          <select id="doom-cooldown"></select>
+          <select id="doom-cooldown" aria-label="Cooldown duration"></select>
         </label>
       </div>
-      <p class="note">A pause longer than 90 seconds between reels resets the streak — this only catches back-to-back scrolling.</p>
-    </section>
 
-    <section class="category">
-      <div class="category-head">
-        <div>
-          <h2>Adult Content</h2>
-          <p class="hint">Blocks 45+ known porn &amp; adult sites</p>
+      <p class="card-note">A pause of 90+ seconds between reels resets the counter — only catches active scrolling sessions.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <div class="card-head-info">
+          <div class="card-icon card-icon--danger" aria-hidden="true">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+              <path d="M12 2L4 5.5v6.2C4 17 7.4 21.6 12 23c4.6-1.4 8-6 8-11.3V5.5L12 2Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+              <path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="card-text">
+            <h2>Adult Content</h2>
+            <p class="hint">Blocks 45+ known adult &amp; porn sites</p>
+          </div>
         </div>
-        <label class="switch switch--master">
+        <label class="switch switch--master" aria-label="Toggle adult content filter">
           <input type="checkbox" id="adult-master" />
           <span class="slider"></span>
         </label>
       </div>
-    </section>
+    </div>
+
   </main>
 
   <footer class="footer">
+    <div class="footer-dot" id="status-dot" aria-hidden="true"></div>
     <span id="status-text">All protections active</span>
   </footer>
 

@@ -1,105 +1,292 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<title>Blocked — FocusGuard</title>
-<style>
-  :root {
-    --bg: #171d27;
-    --card: #212a38;
-    --border: #2c3646;
-    --text: #eaeef4;
-    --muted: #8b98ac;
-    --accent: #4fcdb0;
-  }
-  * { box-sizing: border-box; }
-  html, body {
-    height: 100%;
-    margin: 0;
-    background: var(--bg);
-    color: var(--text);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .card {
-    max-width: 420px;
-    width: 90%;
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 36px 32px;
-    text-align: center;
-  }
-  .mark {
-    width: 56px;
-    height: 56px;
-    margin: 0 auto 18px;
-    border-radius: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(155deg, #35604f, #1a3a30);
-    color: var(--accent);
-  }
-  h1 {
-    font-size: 19px;
-    margin: 0 0 8px;
-  }
-  p {
-    color: var(--muted);
-    font-size: 13.5px;
-    line-height: 1.6;
-    margin: 0 0 22px;
-  }
-  .hl { color: var(--text); font-weight: 600; }
-  #countdown {
-    display: none;
-    margin: -8px 0 20px;
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--accent);
-    font-variant-numeric: tabular-nums;
-  }
-  .actions {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-  }
-  button {
-    font: inherit;
-    font-size: 13px;
-    padding: 9px 16px;
-    border-radius: 9px;
-    border: 1px solid var(--border);
-    background: transparent;
-    color: var(--text);
-    cursor: pointer;
-  }
-  button.primary {
-    background: var(--accent);
-    color: #0e1a16;
-    border-color: var(--accent);
-    font-weight: 600;
-  }
-</style>
+  <meta charset="UTF-8" />
+  <title>Blocked — FocusGuard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0c1220;
+      --card: #111827;
+      --border: #1e2d45;
+      --border-light: #243354;
+      --text: #f0f4ff;
+      --text-sub: #94a3c0;
+      --text-muted: #5a6b88;
+      --accent: #3b82f6;
+      --accent-glow: rgba(59,130,246,0.2);
+      --accent-dim: rgba(59,130,246,0.1);
+      --danger: #ef4444;
+      --danger-dim: rgba(239,68,68,0.1);
+      --warn: #f59e0b;
+      --green: #10b981;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 440px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+
+    .card {
+      width: 100%;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 40px 36px 36px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: -40px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(59,130,246,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .card.card--break::before {
+      background: radial-gradient(circle, rgba(245,158,11,0.06) 0%, transparent 70%);
+    }
+
+    .card.card--adult::before {
+      background: radial-gradient(circle, rgba(239,68,68,0.06) 0%, transparent 70%);
+    }
+
+    .shield-wrap {
+      width: 70px;
+      height: 70px;
+      margin: 0 auto 22px;
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(145deg, #1d3a6e 0%, #0f2040 100%);
+      border: 1px solid rgba(59,130,246,0.25);
+      box-shadow: 0 0 24px rgba(59,130,246,0.12), 0 1px 0 rgba(255,255,255,0.04) inset;
+      color: var(--accent);
+      position: relative;
+    }
+
+    .shield-wrap.shield--break {
+      background: linear-gradient(145deg, #3d2a00 0%, #1a1000 100%);
+      border-color: rgba(245,158,11,0.25);
+      box-shadow: 0 0 24px rgba(245,158,11,0.1), 0 1px 0 rgba(255,255,255,0.04) inset;
+      color: var(--warn);
+    }
+
+    .shield-wrap.shield--adult {
+      background: linear-gradient(145deg, #3d0f0f 0%, #1a0000 100%);
+      border-color: rgba(239,68,68,0.25);
+      box-shadow: 0 0 24px rgba(239,68,68,0.1), 0 1px 0 rgba(255,255,255,0.04) inset;
+      color: var(--danger);
+    }
+
+    .shield-wrap svg {
+      filter: drop-shadow(0 0 6px currentColor);
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 999px;
+      margin-bottom: 16px;
+      background: var(--accent-dim);
+      color: var(--accent);
+      border: 1px solid rgba(59,130,246,0.2);
+    }
+
+    .pill.pill--break {
+      background: rgba(245,158,11,0.1);
+      color: var(--warn);
+      border-color: rgba(245,158,11,0.2);
+    }
+
+    .pill.pill--adult {
+      background: var(--danger-dim);
+      color: var(--danger);
+      border-color: rgba(239,68,68,0.2);
+    }
+
+    h1 {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.25;
+    }
+
+    .message {
+      font-size: 13.5px;
+      font-weight: 400;
+      color: var(--text-sub);
+      line-height: 1.65;
+      margin-bottom: 20px;
+    }
+
+    .hl {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .countdown {
+      display: none;
+      margin: 0 auto 20px;
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--accent);
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -1px;
+    }
+
+    .countdown.visible {
+      display: block;
+    }
+
+    .countdown-label {
+      display: none;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-muted);
+      letter-spacing: 0.3px;
+      margin-top: -14px;
+      margin-bottom: 18px;
+    }
+
+    .countdown-label.visible {
+      display: block;
+    }
+
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 0 0 20px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    button {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 10px 20px;
+      border-radius: 10px;
+      border: 1px solid var(--border-light);
+      background: transparent;
+      color: var(--text-sub);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    button:hover {
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+      border-color: rgba(255,255,255,0.1);
+    }
+
+    button.primary {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+      box-shadow: 0 0 12px var(--accent-glow);
+    }
+
+    button.primary:hover {
+      background: #60a5fa;
+      border-color: #60a5fa;
+    }
+
+    .brand-footer {
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      opacity: 0.4;
+    }
+
+    .brand-footer svg {
+      color: var(--accent);
+    }
+
+    .brand-footer span {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-muted);
+      letter-spacing: 0.2px;
+    }
+  </style>
 </head>
 <body>
-  <div class="card">
-    <div class="mark" aria-hidden="true">
-      <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-        <path d="M12 2 4 5.5v6.2C4 17 7.4 21.6 12 23c4.6-1.4 8-6 8-11.3V5.5L12 2Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
-        <path d="M9 12.2l2.1 2.1L15.3 10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
+
+  <div class="container">
+    <div class="card" id="main-card">
+      <div class="shield-wrap" id="shield-icon" aria-hidden="true">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+          <path d="M12 2.5L4.5 5.8v5.8C4.5 16.6 7.7 21 12 22.5c4.3-1.5 7.5-5.9 7.5-10.9V5.8L12 2.5Z" fill="rgba(59,130,246,0.1)" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+          <path d="M9.5 12.3l1.8 1.8 3.2-3.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+
+      <div class="pill" id="category-pill">FocusGuard</div>
+
+      <h1 id="title">This page is blocked</h1>
+      <p class="message" id="message">This site is currently blocked by FocusGuard.</p>
+
+      <div class="countdown" id="countdown"></div>
+      <div class="countdown-label" id="countdown-label">time remaining</div>
+
+      <div class="divider"></div>
+
+      <div class="actions">
+        <button id="back-btn">Go back</button>
+      </div>
     </div>
-    <h1 id="title">This page is blocked</h1>
-    <p id="message">This site is currently blocked by FocusGuard.</p>
-    <div id="countdown"></div>
-    <div class="actions">
-      <button id="back-btn">Go back</button>
+
+    <div class="brand-footer" aria-hidden="true">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+        <path d="M12 2L4 5.5v6.2C4 17 7.4 21.6 12 23c4.6-1.4 8-6 8-11.3V5.5L12 2Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+      </svg>
+      <span>FocusGuard</span>
     </div>
   </div>
+
   <script src="blocked.js"></script>
 </body>
 </html>
