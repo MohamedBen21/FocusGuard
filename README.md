@@ -38,9 +38,21 @@ focusguard/
 ## How it works
 
 ### Adult content — hard blocked
-One switch blocks a curated list of 45+ well-known adult/porn sites at the
-network level. There's no "allow once" for this category — visiting redirects
-straight to a blocked page.
+One switch blocks a curated list of **1,678 domains across 80 adult-site
+brands** at the network level — not just the `.com` version of each site, but
+every alternate TLD mirror (`.tv`, `.net`, `.xxx`, `.to`, `.org`, and dozens
+more) that the same brand operates or that clone sites use to route around
+`.com`-only blocklists. There's no "allow once" for this category — visiting
+redirects straight to a blocked page.
+
+The list is built from
+[Bon-Appetit/porn-domains](https://github.com/Bon-Appetit/porn-domains), a
+large, actively maintained, deduplicated open-source blocklist (CC BY-SA
+4.0), filtered down to real, well-formed domains for known adult-site brands.
+Since the blocking rule matches a domain *and all its subdomains*
+automatically (e.g. blocking `pornhub.com` already covers `de.pornhub.com`,
+`api.pornhub.com`, etc.), the list only needed to add the separate
+alternate-TLD domains, not subdomains.
 
 ### Reels & Shorts — smart doomscroll limit
 These are **not** blocked outright, so a link a friend sends you still opens
@@ -61,6 +73,25 @@ fine. Instead, each platform has its own switch and its own streak counter:
 This applies independently to all four platforms — YouTube Shorts, TikTok,
 Instagram Reels, and Facebook Reels each track their own streak.
 
+## Design
+
+The visual identity is built around a lighthouse beacon rather than the
+generic shield-and-checkmark look most blocker extensions default to — a
+steady, warm signal keeping watch, in keeping with the project's goal of
+helping people stay present rather than policing them.
+
+- **Palette:** deep night-sea navy (`#14212c`) with a brass/lantern-amber
+  accent (`#d8a44a`), warm parchment text (`#ede3d0`), and muted pine-green /
+  signal-flare-red for status states — chosen deliberately over the generic
+  dark-mode-plus-neon-teal look common in AI-generated UI.
+- **Type:** Libre Caslon Display for the wordmark and headings, IBM Plex Sans
+  for UI text, IBM Plex Mono for counters and countdowns — all bundled
+  locally as `.woff2` files (see `fonts/` in each build) so nothing is
+  fetched over the network at runtime. All three are open-licensed (SIL OFL).
+- **Icons:** a small hand-built line-icon set (compass, lock, hourglass,
+  reel) rather than a generic icon font, kept consistent in stroke weight and
+  style with the beacon mark.
+
 ## Notes & limitations
 
 - Reel detection keys off the reel/video ID in the URL rather than video-load
@@ -70,10 +101,12 @@ Instagram Reels, and Facebook Reels each track their own streak.
   block, a technically determined user could disable the extension to get
   around it — same as any personal focus tool. It's built to interrupt casual
   scrolling, not to be tamper-proof.
-- The adult-sites list is a static, curated set of domains — it won't catch
-  literally every adult site on the internet, but covers the large,
-  high-traffic ones. Edit `ADULT_DOMAINS` near the top of `background.js` to
-  add more.
+- The adult-sites list covers 80 brands and their alternate-TLD mirrors
+  (1,678 domains total), sourced from a maintained open-source blocklist —
+  see `ADULT_DOMAINS` near the top of `background.js` to review, add, or
+  remove entries. It won't catch literally every adult site on the internet,
+  since new mirror domains appear constantly, but it covers the large,
+  high-traffic brands broadly.
 - If a platform changes its page structure, the `inReelsContext()` and
   `currentReelId()` functions in `content-reels.js` are the place to update.
 
@@ -92,7 +125,8 @@ Instagram Reels, and Facebook Reels each track their own streak.
   settings
 - `blocked.html` / `blocked.js` — the page shown when a site is blocked,
   including a live cooldown countdown for doomscroll blocks
-- `icons/` — extension icons
+- `icons/` — extension icons (beacon mark)
+- `fonts/` — bundled local `.woff2` files and their OFL license
 
 ## License
 

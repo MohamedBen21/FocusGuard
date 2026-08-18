@@ -24,7 +24,6 @@
     return null;
   }
 
-  // Is the current URL a reels/shorts context for this platform?
   function inReelsContext() {
     const path = location.pathname;
     switch (PLATFORM) {
@@ -41,9 +40,6 @@
     }
   }
 
-  // Extract the specific reel/video id from the URL, if present. Returns
-  // null when we're on a reels-context page but no specific reel is loaded
-  // yet (e.g. still on the bare /reels/ feed root).
   function currentReelId() {
     const path = location.pathname;
     let m;
@@ -86,11 +82,9 @@
 
   let evaluating = false;
 
-  // Central check, called from every signal (URL change, video events,
-  // periodic poll). Cheap no-op unless something actually changed.
   async function evaluate() {
     if (!inReelsContext()) return;
-    if (evaluating) return; // avoid overlapping async runs racing each other
+    if (evaluating) return;
     evaluating = true;
     try {
       const { settings, doom } = await getStoredSettings();
@@ -106,7 +100,7 @@
       }
 
       const id = currentReelId();
-      if (!id || id === state.lastId) return; // no specific reel yet, or unchanged
+      if (!id || id === state.lastId) return;
 
       const gapMs = now - (state.lastTs || 0);
       state.count = gapMs > cfg.resetGapSeconds * 1000 ? 1 : state.count + 1;
@@ -129,9 +123,6 @@
     }
   }
 
-
-  //1) SPA navigation (pushState/replaceState/popstate) — the primary signal,
-  //since all four platforms update the URL per reel.
   function patchHistory() {
     const fire = () => setTimeout(evaluate, 0);
     const origPush = history.pushState;
@@ -148,10 +139,6 @@
   }
   patchHistory();
 
-  //2) Video element activity — a helpful extra nudge for platforms that
-  //update the URL a beat after (or before) the video actually starts.
-  //Harmless even if redundant: evaluate() only counts on an actual id
-  //change, so extra calls never double-count.
   document.addEventListener(
     "loadstart",
     (e) => {
@@ -167,11 +154,7 @@
     true
   );
 
-  //3) Fast poll as a safety net — catches any id change the above signals
-  //miss (e.g. a feed that mutates the URL without a history API call).
   setInterval(evaluate, 700);
-
-  //4) Initial check on page load.
   evaluate();
 
   chrome.storage.onChanged.addListener((changes, area) => {

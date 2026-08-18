@@ -16,7 +16,6 @@ const cooldownSelect = document.getElementById("doom-cooldown");
 
 let settings = DEFAULT_SETTINGS;
 let doomState = {};
-let liveTimer = null;
 
 function reelsAllOn(r) {
   return r.youtube && r.tiktok && r.instagram && r.facebook;
@@ -88,18 +87,18 @@ function updateStatus() {
   const allOff = reelsAllOff(settings.reels) && !settings.adult.master;
 
   statusText.classList.remove("status--partial", "status--off");
-  statusDot.classList.remove("dot--warn", "dot--off");
+  statusDot.classList.remove("status--partial", "status--off");
 
   if (allOn) {
     statusText.textContent = "All protections active";
   } else if (allOff) {
     statusText.textContent = "All protections off";
     statusText.classList.add("status--off");
-    statusDot.classList.add("dot--off");
+    statusDot.classList.add("status--off");
   } else {
     statusText.textContent = "Some protections off";
     statusText.classList.add("status--partial");
-    statusDot.classList.add("dot--warn");
+    statusDot.classList.add("status--partial");
   }
 }
 
@@ -157,4 +156,4 @@ chrome.storage.onChanged.addListener((changes, area) => {
 });
 
 loadAll();
-liveTimer = setInterval(renderStreaks, 1000);
+setInterval(renderStreaks, 1000);
