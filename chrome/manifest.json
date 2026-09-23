@@ -1,11 +1,13 @@
-{
+﻿{
   "manifest_version": 3,
   "name": "FocusGuard \u2014 Block Reels & Adult Sites",
   "version": "1.2.0",
   "description": "Blocks TikTok, YouTube Shorts, Instagram Reels, Facebook Reels, and adult/porn websites. Toggle each category on or off anytime, with a smart doomscroll limit for reels.",
   "permissions": [
     "storage",
-    "declarativeNetRequest"
+    "declarativeNetRequest",
+    "webNavigation",
+    "tabs"
   ],
   "host_permissions": [
     "<all_urls>"
