@@ -1,10 +1,15 @@
 {
   "manifest_version": 3,
-  "name": "FocusGuard — Block Reels & Adult Sites",
-  "version": "1.1.1",
+  "name": "FocusGuard \u2014 Block Reels & Adult Sites",
+  "version": "1.2.0",
   "description": "Blocks TikTok, YouTube Shorts, Instagram Reels, Facebook Reels, and adult/porn websites. Toggle each category on or off anytime, with a smart doomscroll limit for reels.",
-  "permissions": ["storage", "declarativeNetRequest"],
-  "host_permissions": ["<all_urls>"],
+  "permissions": [
+    "storage",
+    "declarativeNetRequest"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
   "background": {
     "service_worker": "background.js"
   },
@@ -29,14 +34,41 @@
         "*://*.instagram.com/*",
         "*://*.facebook.com/*"
       ],
-      "js": ["content-reels.js"],
+      "js": [
+        "content-reels.js"
+      ],
+      "run_at": "document_start"
+    },
+    {
+      "matches": [
+        "*://*.google.com/search*",
+        "*://*.bing.com/search*",
+        "*://duckduckgo.com/*",
+        "*://*.search.yahoo.com/*",
+        "*://*.yandex.com/*",
+        "*://*.yandex.ru/*",
+        "*://*.baidu.com/s*",
+        "*://*.ecosia.org/search*",
+        "*://*.startpage.com/*",
+        "*://search.brave.com/*",
+        "*://*.qwant.com/*"
+      ],
+      "js": [
+        "content-search.js"
+      ],
       "run_at": "document_start"
     }
   ],
   "web_accessible_resources": [
     {
-      "resources": ["blocked.html", "icons/icon128.png", "fonts/*"],
-      "matches": ["<all_urls>"]
+      "resources": [
+        "blocked.html",
+        "icons/icon128.png",
+        "fonts/*"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
     }
   ]
 }

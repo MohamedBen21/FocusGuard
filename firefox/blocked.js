@@ -39,7 +39,10 @@ if (cat === "doomscroll") {
   }
 } else if (cat === "adult") {
   titleEl.textContent = "This page is blocked";
-  msgEl.innerHTML = `<span class="hl">${site}</span> is blocked by FocusGuard's adult content filter. You can turn this off anytime from the extension icon.`;
+  msgEl.innerHTML =
+    reason === "search"
+      ? `Your search included <span class="hl">${site}</span>, a term FocusGuard blocks. You can turn this off anytime from the extension icon.`
+      : `<span class="hl">${site}</span> is blocked by FocusGuard's adult content filter. You can turn this off anytime from the extension icon.`;
 } else {
   titleEl.textContent = "This page is blocked";
   msgEl.innerHTML = `<span class="hl">${site}</span> is currently blocked by FocusGuard. You can turn this off anytime from the extension icon.`;

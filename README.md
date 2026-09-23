@@ -54,6 +54,16 @@ automatically (e.g. blocking `pornhub.com` already covers `de.pornhub.com`,
 `api.pornhub.com`, etc.), the list only needed to add the separate
 alternate-TLD domains, not subdomains.
 
+**Search queries are covered too.** If a search on Google, Bing, DuckDuckGo,
+Yahoo, Yandex, Baidu, Ecosia, Startpage, Brave Search, or Qwant contains the
+name of one of the 81 tracked brands (`pornhub`, `xvideos`, etc.) — catching
+someone searching for a mirror not yet in the domain list — FocusGuard
+redirects before the results page loads. Matching is whole-word only, so it
+won't trip on unrelated searches that happen to contain a similar substring
+(tested against cases like "sex education," "same-sex marriage," and
+"webcam repair," which all pass through untouched). This only runs while the
+Adult Content switch is on.
+
 ### Reels & Shorts — smart doomscroll limit
 These are **not** blocked outright, so a link a friend sends you still opens
 fine. Instead, each platform has its own switch and its own streak counter:
@@ -117,6 +127,8 @@ helping people stay present rather than policing them.
   keys)
 - `background.js` — builds the adult-site blocking rules
   (`declarativeNetRequest`); reels are not network-blocked here
+- `content-search.js` — checks search-engine query parameters for blocked
+  brand names and redirects before results load
 - `content-reels.js` — detects new reels via their URL id, tracks the streak
   per platform in `chrome.storage.local`, and redirects to the blocked page
   once the threshold or an active cooldown is hit
