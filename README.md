@@ -1,145 +1,228 @@
-# FocusGuard
+﻿<div align="center">
+  <img src="docs/banner.jpg" alt="FocusGuard — On watch, so you don't have to be." width="100%" />
+</div>
 
-A browser extension that blocks adult/porn websites, and keeps short-form
-video feeds (YouTube Shorts, TikTok, Instagram Reels, Facebook Reels) from
-turning into doomscrolling — without blocking them outright.
+<br/>
 
-## Repo layout
+<div align="center">
 
-This repo holds both browser builds side by side, since they share almost all
-of their code and only differ in `manifest.json`:
+[![Firefox Add-ons](https://img.shields.io/badge/Firefox-Add--on-FF7139?logo=firefox-browser&logoColor=white&style=for-the-badge)](https://addons.mozilla.org/en-US/firefox/addon/focusguard-mindful-browsing/)
+[![Chrome](https://img.shields.io/badge/Chrome-Extension-4285F4?logo=google-chrome&logoColor=white&style=for-the-badge)](#-install--chromium)
+[![Manifest V3](https://img.shields.io/badge/Manifest-V3-0f172a?style=for-the-badge&logo=googlechrome&logoColor=white)](https://developer.chrome.com/docs/extensions/mv3/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-10b981?style=for-the-badge)](LICENSE)
+
+</div>
+
+<br/>
+
+**FocusGuard** is a browser extension that quietly works in the background to keep you on track:
+
+- 🔒 **Adult content** — hard-blocked at the navigation layer across 1,600+ domains and TLDs.
+- 📱 **Reels & Shorts** — not blocked outright (a friend's link still opens), but each platform tracks your streak and pauses itself when you hit your limit.
+- ⏳ **Doomscroll Limit** — configurable threshold (5–10 reels) and cooldown (5–60 min). The streak resets if you pause for 90+ seconds.
+- 🔍 **Search filter** — intercepts adult-keyword queries on Google, Bing, DuckDuckGo, Brave Search, and 7 other engines before results load.
+
+Everything is stored locally. No accounts, no servers, no tracking.
+
+---
+
+## 📸 Screenshots & Live Demo
+
+<p align="center">
+  <img src="docs/demo.gif" alt="FocusGuard In-Action Demo" width="360" />
+  <br/><sub><b>Live Extension Demo</b> - Instant platform switches, streak alerts, and active protection monitoring.</sub>
+</p>
+
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <img src="docs/popup.jpg" alt="FocusGuard popup showing all three protection categories with live streak badges" width="100%" />
+      <br/><sub><b>Popup — live streak badges, per-platform toggles, doomscroll controls</b></sub>
+    </td>
+    <td align="center" width="50%">
+      <img src="docs/blocked.jpg" alt="FocusGuard blocked page for adult content" width="100%" />
+      <br/><sub><b>Blocked page — calm, authoritative, one-click back</b></sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="50%">
+      <img src="docs/break.jpg" alt="FocusGuard doomscroll break page with countdown timer" width="100%" />
+      <br/><sub><b>Doomscroll break — live countdown, resumes automatically</b></sub>
+    </td>
+    <td align="center" width="50%">
+      <img src="docs/search.jpg" alt="FocusGuard search filter banner on Google" width="100%" />
+      <br/><sub><b>Search filter — intercepts adult queries before results appear</b></sub>
+    </td>
+  </tr>
+</table>
+
+---
+
+## 🦊 Install — Firefox
+
+FocusGuard is **available on Firefox Add-ons (AMO)** — permanent install, no developer mode needed:
+
+<a href="https://addons.mozilla.org/en-US/firefox/addon/focusguard-mindful-browsing/">
+  <img src="https://blog.mozilla.org/addons/files/2020/04/get-the-addon-fx-apr-2020.svg" alt="Get the Firefox Add-on" height="60" />
+</a>
+
+1. Click the button above (or search **FocusGuard** on [addons.mozilla.org](https://addons.mozilla.org/en-US/firefox/addon/focusguard-mindful-browsing/)).
+2. Click **Add to Firefox** → **Add**.
+3. Pin the extension from the toolbar for quick access.
+
+---
+
+## 🌐 Install — Chromium
+
+Chrome, Brave, Edge, Opera, and Vivaldi all support loading unpacked extensions in developer mode.
+
+<details>
+<summary><b>Step-by-step</b></summary>
+
+1. Download or clone this repository.
+2. Open your browser's extensions page:
+   - Chrome / Brave → `chrome://extensions`
+   - Edge → `edge://extensions`
+   - Opera → `opera://extensions`
+3. Turn on **Developer mode** (top-right toggle).
+4. Click **Load unpacked**.
+5. Select the `chrome/` folder from this repository.
+6. Pin the FocusGuard icon from the puzzle-piece menu.
+
+</details>
+
+> Chrome Web Store submission is planned. Until then, load unpacked using the steps above.
+
+---
+
+## 🦊 Install — Firefox (manual / developer)
+
+If you'd prefer to load from source rather than AMO:
+
+<details>
+<summary><b>Temporary install (removed on browser restart)</b></summary>
+
+1. Open `about:debugging#/runtime/this-firefox`.
+2. Click **Load Temporary Add-on…**
+3. Select any file inside the `firefox/` folder (e.g. `manifest.json`).
+
+</details>
+
+<details>
+<summary><b>Permanent install from source</b></summary>
+
+Firefox requires extensions to be signed by Mozilla for permanent installs. The easiest path is to use the [AMO listing](https://addons.mozilla.org/en-US/firefox/addon/focusguard-mindful-browsing/).
+
+For self-signing and sideloading, refer to [Mozilla's guide on self-distribution](https://extensionworkshop.com/documentation/publish/self-distribution/).
+
+</details>
+
+---
+
+## ⚙️ How it works
+
+### 🔒 Adult content — hard blocked
+
+One toggle blocks navigation to 1,600+ adult domains across every TLD variant. The block happens at the **navigation layer** (`webNavigation` + salted SHA-256 hash lookup) — domain names are never stored in plaintext in the source code, making the list safe to open-source.
+
+Visiting any blocked domain redirects immediately to the FocusGuard blocked page.
+
+### 📱 Reels & Shorts — smart streak limiter
+
+These platforms are **not** blocked outright — a link from a friend still opens normally. Instead:
+
+- Every reel/short is identified by its ID in the URL (all four platforms update the address bar per video).
+- Watch back-to-back and once you hit your threshold (default **7**, configurable 5–10), that platform pauses itself.
+- A **"Take a break"** screen appears with a live countdown. The platform stays paused until the cooldown ends (default **15 min**, configurable 5–60 min).
+- Pause for more than **90 seconds** between videos and the streak resets — so one video now and one an hour later never triggers it.
+
+The popup shows a live badge next to each platform (e.g. `4/7`) so you can see the streak building, and a `cooldown 12m` badge while paused.
+
+### 🔍 Search filter
+
+On 11 major search engines, FocusGuard checks your query against a keyword list of adult site names. If there's a match, a non-intrusive banner appears at the top of the results and the page content is dimmed — no redirect, just a clear warning you can dismiss.
+
+Covered engines: **Google, Bing, DuckDuckGo, Yahoo, Yandex, Baidu, Ecosia, Startpage, Brave Search, Qwant**.
+
+---
+
+## 🎛️ Configuration
+
+All settings are in the popup — click the FocusGuard icon in your toolbar.
+
+| Setting | Default | Range |
+|---|---|---|
+| Reels threshold | 7 reels | 5 – 10 |
+| Cooldown duration | 15 min | 5, 10, 15, 20, 30, 45, 60 min |
+| Streak reset gap | 90 sec | Fixed |
+| Adult content filter | On | On / Off |
+| Per-platform toggles | All on | Individual on/off |
+
+---
+
+## 🔐 Privacy & permissions
+
+FocusGuard makes **no network requests** and stores everything locally in `browser.storage.local`.
+
+| Permission | Why |
+|---|---|
+| `storage` | Saves your settings and doomscroll state |
+| `declarativeNetRequest` | Required by the API (used during migration cleanup on install) |
+| `webNavigation` | Intercepts navigations to check against the adult domain hash set |
+| `tabs` | Redirects a tab to the blocked page when a match is found |
+| `<all_urls>` (host permission) | Needed by `webNavigation` to observe all navigations |
+| Content scripts on social platforms | Detects reel changes via the URL to track your streak |
+| Content scripts on search engines | Reads the search query to apply the keyword filter |
+
+> **Adult domain list:** To keep the list open-source without exposing domain names in plaintext, every entry is stored as a salted SHA-256 hash in `adult-hashes.js`. The hash generator script is not committed to the repository.
+
+---
+
+## 📁 Repository layout
 
 ```
 focusguard/
-├── chrome/     → Chrome, Brave, Edge, Opera, Vivaldi (Chromium-based)
-├── firefox/    → Firefox 115+
-├── LICENSE
+├── chrome/                  Chrome, Brave, Edge, Opera, Vivaldi
+│   ├── manifest.json          MV3 manifest
+│   ├── background.js          webNavigation adult blocker (importScripts adult-hashes.js)
+│   ├── adult-hashes.js        1,678 salted SHA-256 hashes — no plaintext domains
+│   ├── content-reels.js       Streak tracker for YouTube, TikTok, Instagram, Facebook
+│   ├── content-search.js      Search query keyword filter (11 engines)
+│   ├── popup.html/css/js      Toolbar popup UI
+│   ├── blocked.html/js        Blocked & break pages
+│   ├── fonts/                 Bundled web fonts (offline-safe)
+│   └── icons/
+├── firefox/                 Firefox 115+ (same files, different manifest)
+│   └── ...
+├── docs/                    Screenshots and banner used in this README
+├── .gitignore               Excludes the hash generator script
+├── LICENSE                  MIT
 └── README.md
 ```
 
-## Install — Chrome / Brave / Edge / Opera / Vivaldi
+---
 
-1. Open `chrome://extensions` (or `brave://extensions`, `edge://extensions`, etc.)
-2. Turn on **Developer mode** (top-right toggle).
-3. Click **Load unpacked**.
-4. Select the `chrome/` folder from this repo.
-5. Pin the extension so it's easy to reach.
+## 📝 Notes & limitations
 
-## Install — Firefox
+- **Reel detection** keys off the video ID in the URL rather than video-load events, since some platforms preload or reuse `<video>` elements in ways that don't line up with what's on screen.
+- **Self-managed limiter**: a determined user can disable the extension to bypass the doomscroll limit — same as any personal focus tool. It's built to interrupt casual scrolling, not to be tamper-proof.
+- **Adult domain list**: covers 80+ high-traffic brands across 1,600+ TLD variants. It won't catch every site on the internet. The hash generator script (not committed) is where you'd add more.
+- **Platform changes**: if YouTube, TikTok, Instagram, or Facebook change their URL structure, `inReelsContext()` and `currentReelId()` in `content-reels.js` are the place to update.
 
-1. Open `about:debugging#/runtime/this-firefox`.
-2. Click **Load Temporary Add-on…**.
-3. Select any file inside the `firefox/` folder (e.g. `manifest.json`).
-4. Note: temporary add-ons in Firefox are removed when you restart the
-   browser. A permanent install requires the extension to be signed by
-   Mozilla (via `about:addons` → Debug Add-ons, or submitted to
-   addons.mozilla.org).
+---
 
-## How it works
+## 🤝 Contributing
 
-### Adult content — hard blocked
-One switch blocks a curated list of **1,678 domains across 80 adult-site
-brands** at the network level — not just the `.com` version of each site, but
-every alternate TLD mirror (`.tv`, `.net`, `.xxx`, `.to`, `.org`, and dozens
-more) that the same brand operates or that clone sites use to route around
-`.com`-only blocklists. There's no "allow once" for this category — visiting
-redirects straight to a blocked page.
+Issues and pull requests are welcome.
 
-The list is built from
-[Bon-Appetit/porn-domains](https://github.com/Bon-Appetit/porn-domains), a
-large, actively maintained, deduplicated open-source blocklist (CC BY-SA
-4.0), filtered down to real, well-formed domains for known adult-site brands.
-Since the blocking rule matches a domain *and all its subdomains*
-automatically (e.g. blocking `pornhub.com` already covers `de.pornhub.com`,
-`api.pornhub.com`, etc.), the list only needed to add the separate
-alternate-TLD domains, not subdomains.
+- **Bug reports**: open an issue with the browser version, extension version, and steps to reproduce.
+- **New domains**: add them to the generator script and re-run it — the output `adult-hashes.js` is what gets committed.
+- **Platform fixes**: `content-reels.js` is the file to edit for reel detection; each platform has its own `inReelsContext()` and `currentReelId()` implementation.
 
-**Search queries are covered too.** If a search on Google, Bing, DuckDuckGo,
-Yahoo, Yandex, Baidu, Ecosia, Startpage, Brave Search, or Qwant contains the
-name of one of the 81 tracked brands (`pornhub`, `xvideos`, etc.) — catching
-someone searching for a mirror not yet in the domain list — FocusGuard
-redirects before the results page loads. Matching is whole-word only, so it
-won't trip on unrelated searches that happen to contain a similar substring
-(tested against cases like "sex education," "same-sex marriage," and
-"webcam repair," which all pass through untouched). This only runs while the
-Adult Content switch is on.
+---
 
-### Reels & Shorts — smart doomscroll limit
-These are **not** blocked outright, so a link a friend sends you still opens
-fine. Instead, each platform has its own switch and its own streak counter:
+## 📜 License
 
-- Every reel is identified by its ID in the URL (all four platforms update
-  the address bar per reel/video). A change in ID counts as a new reel watched.
-- Watch reels back-to-back and once you hit your threshold (5–10, your
-  choice, default 7), that platform pauses itself: a "take a break" screen
-  shows up with a countdown, and the platform stays blocked until the
-  cooldown (default 15 minutes, configurable) ends.
-- Pause for more than 90 seconds between reels and the streak resets — so
-  watching one video now and another an hour later never triggers it.
-- The popup shows a live badge next to each platform (e.g. `4/7`) so you can
-  see your streak building in real time, and a `cooldown 12m` badge while
-  paused.
+[MIT](LICENSE) — © 2026 Mohamed Seif El Islam Benatallah ([MohamedBen21](https://github.com/MohamedBen21))
 
-This applies independently to all four platforms — YouTube Shorts, TikTok,
-Instagram Reels, and Facebook Reels each track their own streak.
-
-## Design
-
-The visual identity is built around a lighthouse beacon rather than the
-generic shield-and-checkmark look most blocker extensions default to — a
-steady, warm signal keeping watch, in keeping with the project's goal of
-helping people stay present rather than policing them.
-
-- **Palette:** deep night-sea navy (`#14212c`) with a brass/lantern-amber
-  accent (`#d8a44a`), warm parchment text (`#ede3d0`), and muted pine-green /
-  signal-flare-red for status states — chosen deliberately over the generic
-  dark-mode-plus-neon-teal look common in AI-generated UI.
-- **Type:** Libre Caslon Display for the wordmark and headings, IBM Plex Sans
-  for UI text, IBM Plex Mono for counters and countdowns — all bundled
-  locally as `.woff2` files (see `fonts/` in each build) so nothing is
-  fetched over the network at runtime. All three are open-licensed (SIL OFL).
-- **Icons:** a small hand-built line-icon set (compass, lock, hourglass,
-  reel) rather than a generic icon font, kept consistent in stroke weight and
-  style with the beacon mark.
-
-## Notes & limitations
-
-- Reel detection keys off the reel/video ID in the URL rather than video-load
-  events, since some platforms preload or reuse `<video>` elements behind the
-  scenes in ways that don't line up with what's actually on screen.
-- Since this is a JS-based, self-managed limiter rather than a network-level
-  block, a technically determined user could disable the extension to get
-  around it — same as any personal focus tool. It's built to interrupt casual
-  scrolling, not to be tamper-proof.
-- The adult-sites list covers 80 brands and their alternate-TLD mirrors
-  (1,678 domains total), sourced from a maintained open-source blocklist —
-  see `ADULT_DOMAINS` near the top of `background.js` to review, add, or
-  remove entries. It won't catch literally every adult site on the internet,
-  since new mirror domains appear constantly, but it covers the large,
-  high-traffic brands broadly.
-- If a platform changes its page structure, the `inReelsContext()` and
-  `currentReelId()` functions in `content-reels.js` are the place to update.
-
-## File overview (per browser folder)
-
-- `manifest.json` — extension configuration (Manifest V3; Chrome and Firefox
-  versions differ slightly in the `background` and `browser_specific_settings`
-  keys)
-- `background.js` — builds the adult-site blocking rules
-  (`declarativeNetRequest`); reels are not network-blocked here
-- `content-search.js` — checks search-engine query parameters for blocked
-  brand names and redirects before results load
-- `content-reels.js` — detects new reels via their URL id, tracks the streak
-  per platform in `chrome.storage.local`, and redirects to the blocked page
-  once the threshold or an active cooldown is hit
-- `popup.html` / `popup.css` / `popup.js` — the toolbar popup: category
-  switches, per-platform live streak badges, and doomscroll threshold/cooldown
-  settings
-- `blocked.html` / `blocked.js` — the page shown when a site is blocked,
-  including a live cooldown countdown for doomscroll blocks
-- `icons/` — extension icons (beacon mark)
-- `fonts/` — bundled local `.woff2` files and their OFL license
-
-## License
-
-MIT — see [LICENSE](./LICENSE). Free to use, modify, and share.
+Free to use, modify, and distribute. See [LICENSE](LICENSE) for the full text.
