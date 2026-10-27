@@ -1,4 +1,4 @@
-﻿<div align="center">
+<div align="center">
   <img src="docs/banner.jpg" alt="FocusGuard — On watch, so you don't have to be." width="100%" />
 </div>
 
@@ -28,30 +28,34 @@ Everything is stored locally. No accounts, no servers, no tracking.
 
 ## 📸 Screenshots & Live Demo
 
-<p align="center">
-  <img src="docs/demo.gif" alt="FocusGuard In-Action Demo" width="360" />
-  <br/><sub><b>Live Extension Demo</b> - Instant platform switches, streak alerts, and active protection monitoring.</sub>
-</p>
-
 <table>
   <tr>
     <td align="center" width="50%">
-      <img src="docs/popup.jpg" alt="FocusGuard popup showing all three protection categories with live streak badges" width="100%" />
-      <br/><sub><b>Popup — live streak badges, per-platform toggles, doomscroll controls</b></sub>
+      <img src="docs/demo.gif" alt="FocusGuard popup in action — streak building, cooldown triggering, a platform toggled off and back on" width="100%" />
+      <br/><sub><b>Live demo</b> — reel streak building, cooldown kicking in, a platform toggled off and on</sub>
     </td>
     <td align="center" width="50%">
-      <img src="docs/blocked.jpg" alt="FocusGuard blocked page for adult content" width="100%" />
-      <br/><sub><b>Blocked page — calm, authoritative, one-click back</b></sub>
+      <img src="docs/popup.jpg" alt="FocusGuard popup with live streak and cooldown badges" width="100%" />
+      <br/><sub><b>Popup</b> — per-platform toggles, live streak/cooldown badges, doomscroll controls</sub>
     </td>
   </tr>
+</table>
+
+<p align="center"><sub>Every screenshot and the GIF above are real captures of the actual extension code in this repository — not mockups.</sub></p>
+
+<table>
   <tr>
-    <td align="center" width="50%">
-      <img src="docs/break.jpg" alt="FocusGuard doomscroll break page with countdown timer" width="100%" />
-      <br/><sub><b>Doomscroll break — live countdown, resumes automatically</b></sub>
+    <td align="center" width="33.3%">
+      <img src="docs/blocked.jpg" alt="FocusGuard blocked page for an adult-content domain" width="100%" />
+      <br/><sub><b>Adult content</b> — blocked at the navigation layer</sub>
     </td>
-    <td align="center" width="50%">
-      <img src="docs/search.jpg" alt="FocusGuard search filter banner on Google" width="100%" />
-      <br/><sub><b>Search filter — intercepts adult queries before results appear</b></sub>
+    <td align="center" width="33.3%">
+      <img src="docs/break.jpg" alt="FocusGuard doomscroll break page with a live countdown" width="100%" />
+      <br/><sub><b>Doomscroll break</b> — live countdown, resumes automatically</sub>
+    </td>
+    <td align="center" width="33.3%">
+      <img src="docs/search.jpg" alt="FocusGuard blocked page triggered by an adult search query" width="100%" />
+      <br/><sub><b>Search filter</b> — triggered by a blocked search term</sub>
     </td>
   </tr>
 </table>
@@ -140,7 +144,7 @@ The popup shows a live badge next to each platform (e.g. `4/7`) so you can see t
 
 ### 🔍 Search filter
 
-On 11 major search engines, FocusGuard checks your query against a keyword list of adult site names. If there's a match, a non-intrusive banner appears at the top of the results and the page content is dimmed — no redirect, just a clear warning you can dismiss.
+On 11 major search engines, FocusGuard checks your query against a keyword list of adult site names before results load. If there's a match, you're redirected to the same blocked page used for adult domains, with the matched term named so you know why.
 
 Covered engines: **Google, Bing, DuckDuckGo, Yahoo, Yandex, Baidu, Ecosia, Startpage, Brave Search, Qwant**.
 
